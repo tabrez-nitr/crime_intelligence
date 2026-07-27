@@ -6,9 +6,9 @@ from sqlalchemy import create_engine, pool
 from alembic import context
 
 from app.core.config import settings
-from app.models.base import Base
+from app.db.base import Base
 # Import all models so Base.metadata is populated for autogenerate
-import app.models  # noqa: F401
+from app.models import *   # noqa: F401
 
 # When running locally (outside Docker), the 'db' hostname from .env
 # won't resolve. Replace it with 'localhost' so alembic can connect.
