@@ -23,14 +23,11 @@ class BaseRepository(Generic[ModelType]):
         self.model  = model 
 
 
-    def create(self , obj : ModelType) -> ModelType:
+    def add(self , obj : ModelType) -> ModelType:
         # recives obj model that is eqaul to modelType (all base models)
         """ this function adds obj to the db and returns back and object modelType """
         
         self.session.add(obj)
-        self.session.commit()
-        self.session.refresh(obj)
-
         return obj 
     
     def get(self , obj_id : int) -> ModelType | None :
@@ -39,7 +36,7 @@ class BaseRepository(Generic[ModelType]):
         return self.session.get(self.model , obj_id)
 
 
-    def get_all(self) -> ModelType | None :
+    def get_all(self) -> list[ModelType] | None :
         """ return all the obj from the db  """
         
         return list(
@@ -52,15 +49,14 @@ class BaseRepository(Generic[ModelType]):
     def delete(self , obj : ModelType) -> None:
 
         self.session.delete(obj)
-        self.session.commit()
     
 
-    def update(self , obj : ModelType) -> ModelType:
-        """ updates the obj in db and returns back an obj"""
-
-        self.session.add(self.model)
+    def commit(self) -> None:
         self.session.commit()
+    
+    def refresh(self , obj : ModelType) -> None:
         self.session.refresh(obj)
-
-        return obj
+    
+    def rollback(self) -> None:
+        self.session.rollback()
         
