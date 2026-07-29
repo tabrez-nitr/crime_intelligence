@@ -5,6 +5,9 @@ from app.api.v1.endpoints.cases import router as case_router
 from app.db.base import Base
 from app.db.session import engine
 
+from app.core.handlers import register_exception_handlers
+
+
 
 with engine.connect() as conn:
     conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
@@ -16,6 +19,9 @@ app = FastAPI(
     title="Crime Intelligence Platform",
     version = "1.0.0",
 )
+
+# pass app to handlers 
+register_exception_handlers(app)
 
 
 app.include_router(case_router)

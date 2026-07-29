@@ -5,6 +5,8 @@ from uuid import uuid4
 
 from app.schemas.case import CaseCreate 
 
+from app.core.exceptions import ConflictException , NotFoundException
+
 
 
 class CaseService:
@@ -25,7 +27,17 @@ class CaseService:
         print("DATA : ",data)
         print("CREATED BY ID : ",created_by_id)
 
-        print(data.model_dump())
+        print("DUMP : ",data.model_dump())
+
+        #before creating we first need to check if alreasy exits 
+        existing = self.repository.get_by_case_number(
+            case_number
+        )
+
+
+
+        if existing:
+            raise ConflictException(f"Case with number {case_number} already exists")
 
         case = Case(
             **data.model_dump(),
@@ -55,9 +67,15 @@ class CaseService:
         return f"CR-{uuid4().hex[:8].upper()}"
 
     
-    def get_case(self , case : Case ) -> list[Case]:
+    def get_case(self , case_id : int ) -> Case | None:
         """ return all cases """
-        return self.repository.get_all()
+
+        case = self.repository.get(case_id)
+        if not case:
+            raise NotFoundException("Case not found")
+
+
+        return case
     
     def delete_case(self , case:Case )-> None:
         """ Delete Case  """
