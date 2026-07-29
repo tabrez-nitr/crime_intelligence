@@ -21,6 +21,8 @@ class CaseRepository(BaseRepository[Case]):
        
 
         return self.session.scalar(
-            select(Case).where(Case.case_number == case_number)
+            select(Case).where(
+                Case.case_number == case_number
+                )
         )
         

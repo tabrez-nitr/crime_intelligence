@@ -14,6 +14,11 @@ router = APIRouter(prefix="/cases" , tags=["Cases"])
     status_code=status.HTTP_201_CREATED
 )
 def create_case(data : CaseCreate , service : CaseService = Depends(get_case_service)):
+    print("-" * 50)
+    print()
+    print("1 : INSIDE CREATE CASE ROUTE")
+  
+
     return (
         service.create_case(
             data = data,
