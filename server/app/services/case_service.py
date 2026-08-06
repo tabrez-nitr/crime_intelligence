@@ -81,3 +81,14 @@ class CaseService:
         """ Delete Case  """
 
         self.repository.delete(case)
+    
+    def search_cases(
+        self , filters : CaseFilter,
+        pagination : PaginationParams,
+    ):
+
+        return self.repository.search_cases(
+            filters,
+            pagination.page,
+            pagination.page_size,
+        )

@@ -8,7 +8,7 @@ from app.core.exceptions import (
 )
 
 def register_exception_handlers(app : FastAPI):
-    """ reccives fastAPI app  """
+    """ recives fastAPI app  """
 
     #if any one calls NotFoundException run the below func of this decorator 
     @app.exception_handler(NotFoundException)

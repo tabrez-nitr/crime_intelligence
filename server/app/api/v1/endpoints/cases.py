@@ -25,3 +25,26 @@ def create_case(data : CaseCreate , service : CaseService = Depends(get_case_ser
             created_by_id = 1 # temp until authentication added 
         )
     )
+
+
+@router.get(
+    "",
+    response_model=list[CaseResponse]
+)
+def get_cases(
+    
+    filters : CaseFilter = Depends(),
+
+    pagination : PaginationParams = Depens(),
+
+    service : CaseService = Depends(
+        get_case_service
+    ),
+):
+
+    return service.search_cases(
+        filters,
+        pagination,
+    )
+
+    
