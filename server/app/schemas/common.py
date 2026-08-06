@@ -1,0 +1,12 @@
+from pydantic import BaseModel , Field
+
+class PaginationParams(BaseModel):
+
+    page: int = Field(default = 1 , ge =1 )
+    # ge greater than or equall to 
+    # le less than or equal to
+    page_size : int = Field(
+        default = 10,
+        ge =1,
+        le = 100,
+    ) 
